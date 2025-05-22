@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -10,6 +10,13 @@ class AppConfig(BaseModel):
     port: int = 8000
     reload: bool = True
 
+class DBConfig(BaseModel):
+    url: str = PostgresDsn
+
+    echo: bool = False
+    echo_pool: bool = False
+    pool_size: int = 50
+    max_overflow: int = 10
 
 
 class Settings(BaseSettings):
@@ -21,7 +28,7 @@ class Settings(BaseSettings):
     )
 
     app: AppConfig = AppConfig()
-
+    db: DBConfig
 
 
 settings = Settings()
