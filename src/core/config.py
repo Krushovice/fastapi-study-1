@@ -5,10 +5,12 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
+
 class AppConfig(BaseModel):
     host: str = "0.0.0.0"
     port: int = 8000
     reload: bool = True
+
 
 class DBConfig(BaseModel):
     url: str = PostgresDsn
@@ -28,7 +30,7 @@ class Settings(BaseSettings):
     )
 
     app: AppConfig = AppConfig()
-    db: DBConfig
+    # db: DBConfig
 
 
 settings = Settings()
