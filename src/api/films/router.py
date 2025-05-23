@@ -1,5 +1,11 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+
+
+from .schemas import (
+    FilmSchema,
+    FilmCreateSchema,
+    FilmUpdateSchema,
+)
 
 router = APIRouter(prefix="/films", tags=["films"])
 
@@ -36,13 +42,6 @@ films = [
 ]
 
 
-class Film(BaseModel):
-    title: str
-    genre: str
-    description: str
-    duration: int
-
-
 @router.get("")
 def films_index() -> list:
     return films
@@ -57,7 +56,7 @@ def film_detail(film_id: int) -> dict | None:
 
 
 @router.post("")
-def film_create(film_in: Film) -> dict:
+def film_create(film_in: FilmCreateSchema) -> dict:
     films.append(
         {
             "id": len(films) + 1,
