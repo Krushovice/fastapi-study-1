@@ -1,3 +1,5 @@
+from datetime import date
+
 from pydantic import BaseModel
 
 
@@ -6,6 +8,7 @@ class FilmBaseSchema(BaseModel):
     genre: str
     description: str
     duration: int
+    release_date: date
 
 
 class FilmCreateSchema(FilmBaseSchema):
@@ -17,6 +20,7 @@ class FilmUpdateSchema(FilmBaseSchema):
     genre: str | None = None
     description: str | None = None
     duration: int | None = None
+    release_date: date | None = None
 
 
 class FilmSchema(FilmBaseSchema):
