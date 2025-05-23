@@ -1,3 +1,7 @@
-__all__ = ("Base",)
+__all__ = (
+    "Base",
+    "Film",
+)
 
 from .base import Base
+from .film import Film
