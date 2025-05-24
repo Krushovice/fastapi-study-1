@@ -1,8 +1,9 @@
 import uvicorn
 
-from create_app import create_app
-from core import settings
 from api import films_router
+from core import settings
+from create_app import create_app
+
 
 app = create_app()
 app.include_router(films_router)
