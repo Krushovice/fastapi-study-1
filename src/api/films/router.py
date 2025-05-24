@@ -1,69 +1,70 @@
-from fastapi import APIRouter, HTTPException
+from typing import List, Union
 
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select, Sequence
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from core.db_helper import db_helper
+from core.models import Film
 
 from .schemas import (
-    FilmSchema,
     FilmCreateSchema,
+    FilmSchema,
     FilmUpdateSchema,
 )
+from .crud import FilmCRUD
+
 
 router = APIRouter(prefix="/films", tags=["films"])
 
 
-films = [
-    {
-        "id": 1,
-        "title": "Оно",
-        "genre": "Ужасы",
-        "description": "О том как ужасный клоун питается страхом детей",
-        "duration": 126,
-    },
-    {
-        "id": 2,
-        "title": "Нефть",
-        "genre": "драма",
-        "description": "О человеке, который поставил нефтяной бизнес выше всего в своей жизни",
-        "duration": 158,
-    },
-    {
-        "id": 3,
-        "title": "8 миля",
-        "genre": "драма",
-        "description": "О становлении репера Еминема",
-        "duration": 110,
-    },
-    {
-        "id": 4,
-        "title": "Всегда говори да!",
-        "genre": "комедия",
-        "description": "О депрессивном парне , который нашел смысл жизни в мелочах",
-        "duration": 135,
-    },
-]
+@router.get("", response_model=List[FilmSchema])
+async def films_index(
+    session: AsyncSession = Depends(dependency=db_helper.session_getter),
+) -> Sequence[Film]:
 
-
-@router.get("")
-def films_index() -> list:
+    films = await FilmCRUD.read_all(session)
     return films
 
 
-@router.get("/{film_id}")
-def film_detail(film_id: int) -> dict | None:
-    for film in films:
-        if film["id"] == film_id:
-            return film
-    raise HTTPException(status_code=404, detail="Film not found")
+@router.get("/{film_id}", response_model=FilmSchema)
+async def film_detail(
+    film_id: int,
+    session: AsyncSession = Depends(dependency=db_helper.session_getter),
+) -> Film | None:
+
+    film = await FilmCRUD.read(session=session, pk=film_id)
+    if film:
+        return film
+    else:
+        raise HTTPException(status_code=404, detail="Film not found")
 
 
 @router.post("")
-def film_create(film_in: FilmCreateSchema) -> dict:
-    films.append(
-        {
-            "id": len(films) + 1,
-            "title": film_in.title,
-            "genre": film_in.genre,
-            "description": film_in.description,
-            "duration": film_in.duration,
-        }
+async def film_create(
+    film_in: FilmCreateSchema,
+    session: AsyncSession = Depends(dependency=db_helper.session_getter),
+) -> dict:
+    film = await FilmCRUD.create(session=session, schema_in=film_in)
+
+    if film:
+        return {"success": True, "message": "Film created!"}
+
+    return {"success": False, "message": "Film not created!"}
+
+
+@router.put("/{film_id}")
+async def film_update(
+    film_id: int,
+    updated_film_in: FilmUpdateSchema,
+    session: AsyncSession = Depends(dependency=db_helper.session_getter),
+) -> dict:
+    update_film = await FilmCRUD.update(
+        session=session,
+        pk=film_id,
+        schema_in=updated_film_in,
     )
-    return {"success": True, "message": "Film created!"}
+    if update_film:
+        return {"success": True, "message": "Film updated!"}
+
+    return {"success": False, "message": "Film not updated!"}
