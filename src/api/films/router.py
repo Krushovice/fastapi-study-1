@@ -1,8 +1,10 @@
-from typing import List, Union
+from typing import List
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import select, Sequence
+from fastapi import APIRouter, Depends, HTTPException, Request
+
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 from core.db_helper import db_helper
 from core.models import Film
@@ -14,17 +16,26 @@ from .schemas import (
 )
 from .crud import FilmCRUD
 
-
+templates = Jinja2Templates(directory="templates/films")
 router = APIRouter(prefix="/films", tags=["films"])
 
 
-@router.get("", response_model=List[FilmSchema])
+@router.get(
+    "",
+    response_class=HTMLResponse,
+    response_model=List[FilmSchema],
+)
 async def films_index(
+    request: Request,
     session: AsyncSession = Depends(dependency=db_helper.session_getter),
-) -> Sequence[Film]:
+) -> HTMLResponse:
 
     films = await FilmCRUD.read_all(session)
-    return films
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={"films": films},
+    )
 
 
 @router.get("/{film_id}", response_model=FilmSchema)

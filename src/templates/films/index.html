@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html
+        lang="EN">
+    <head>
+    <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+        <title>Главная</title>
+    </head>
+    <body>
+
+    <h2>Cписок фильмов</h2>
+
+    <table>
+      <tr>
+        <th>Название фильма</th>
+        <th>Жанр</th>
+        <th>Длительность</th>
+      </tr>
+        {% for film in films %}
+        <tr>
+        <td>{{ film.title }}</td>
+        <td>{{ film.genre }}</td>
+        <td>{{ film.duration }} минут</td>
+        {% endfor %}
+        </tr>
+
+    </table>
+
+    </body>
+</html>
