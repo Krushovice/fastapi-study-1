@@ -1,45 +1,46 @@
-<!DOCTYPE html>
-<html
-        lang="EN">
-    <head>
-    <style>
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
-    }
+{% extends "base.html" %}
 
-    td, th {
-      border: 1px solid #dddddd;
-      text-align: left;
-      padding: 8px;
-    }
-
-    tr:nth-child(even) {
-      background-color: #dddddd;
-    }
-    </style>
-        <title>Главная</title>
-    </head>
-    <body>
-
-    <h2>Cписок фильмов</h2>
-
-    <table>
-      <tr>
-        <th>Название фильма</th>
-        <th>Жанр</th>
-        <th>Длительность</th>
-      </tr>
-        {% for film in films %}
-        <tr>
-        <td>{{ film.title }}</td>
-        <td>{{ film.genre }}</td>
-        <td>{{ film.duration }} минут</td>
-        {% endfor %}
-        </tr>
-
-    </table>
-
-    </body>
-</html>
+{% block title %}Моя коллекция{% endblock %}
+{% block content %}
+<div class="album py-5 bg-light">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for film in films %}
+      <div class="col">
+        <div class="card shadow-sm">
+          <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
+               xmlns="http://www.w3.org/2000/svg" role="img"
+               aria-label="Placeholder: {{ film.title }}"
+               preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>{{ film.title }}</title>
+            <rect width="100%" height="100%" fill="#55595c"></rect>
+            <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ film.title }}</text>
+          </svg>
+          <div class="card-body">
+            <p class="card-text">
+              {{ film.description }}
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Подробнее</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Изменить</button>
+              </div>
+              <small class="text-muted">{{ film.duration}} минут</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block footer %}
+    <footer class="text-muted py-5">
+        <div class="container">
+            <p class="float-end mb-1">
+                <a href="/">На главную</a>
+            </p>
+        </div>
+   </footer>
+{% endblock %}

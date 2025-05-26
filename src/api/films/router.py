@@ -17,7 +17,7 @@ from .crud import FilmCRUD
 
 from utils import SessionDepends
 
-templates = Jinja2Templates(directory="templates/films")
+templates = Jinja2Templates(directory="templates")
 router = APIRouter(prefix="/films", tags=["films"])
 
 
@@ -34,7 +34,7 @@ async def films_index(
     films = await FilmCRUD.read_all(session)
     return templates.TemplateResponse(
         request=request,
-        name="index.html",
+        name="films/index.html",
         context={"films": films},
     )
 
