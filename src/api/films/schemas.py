@@ -1,8 +1,9 @@
 from datetime import date
 
-from pydantic import BaseModel
+from pydantic import BaseModel, constr
 
 
+# Film schemas
 class FilmBaseSchema(BaseModel):
     title: str
     genre: str
@@ -27,3 +28,26 @@ class FilmUpdateSchema(FilmBaseSchema):
 
 class FilmSchema(FilmBaseSchema):
     id: int
+
+
+# Genre schemas
+class GenreBaseSchema(BaseModel):
+    title: constr(
+        min_length=1,
+        max_length=20,
+        to_lower=True,
+    )
+    description: str
+
+
+class GenreSchema(GenreBaseSchema):
+    id: int
+
+
+class GenreCreateSchema(GenreBaseSchema):
+    pass
+
+
+class GenreUpdateSchema(GenreBaseSchema):
+    title: str | None = None
+    description: str | None = None
