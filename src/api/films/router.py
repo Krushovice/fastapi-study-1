@@ -8,17 +8,17 @@ from fastapi.templating import Jinja2Templates
 
 from core.models import Film
 
-from .schemas import (
+from api.films.schemas import (
     FilmCreateSchema,
     FilmSchema,
     FilmUpdateSchema,
 )
-from .crud import FilmCRUD
+from api.films.crud import FilmCRUD
 
 from utils import SessionDepends
 
 templates = Jinja2Templates(directory="templates")
-router = APIRouter(prefix="/films", tags=["films"])
+router = APIRouter(prefix="/films", tags=["Films"])
 
 
 @router.get(

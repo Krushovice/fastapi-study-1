@@ -1,5 +1,5 @@
 from api.base_crud import BaseCRUD
-from api.films import FilmCreateSchema, FilmUpdateSchema
+from api.films.schemas import FilmCreateSchema, FilmUpdateSchema
 from core.models import Film
 
 
