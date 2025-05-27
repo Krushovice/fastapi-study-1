@@ -1,9 +1,13 @@
 from datetime import date
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Date, Integer, String, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from .base import Base
+from core.models import Base
+
+if TYPE_CHECKING:
+    from core.models import Genre
 
 
 class Film(Base):
@@ -39,6 +43,11 @@ class Film(Base):
     )
 
     poster: Mapped[str] = mapped_column(String(120), nullable=True)
+
+    genres: Mapped[list["Genre"]] = relationship(
+        back_populates="films",
+        secondary="film_genre_assoc",
+    )
 
     def __str__(self):
         return self.title
