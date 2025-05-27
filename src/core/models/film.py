@@ -9,7 +9,7 @@ from .base import Base
 class Film(Base):
 
     id: Mapped[int] = mapped_column(
-        Integer(),
+        Integer,
         primary_key=True,
     )
 
@@ -20,7 +20,7 @@ class Film(Base):
     )
 
     description: Mapped[str] = mapped_column(
-        Text(),
+        Text,
         nullable=False,
         default="",
         server_default="",
@@ -31,14 +31,14 @@ class Film(Base):
         nullable=False,
     )
 
-    duration: Mapped[int] = mapped_column(
-        Integer(),
-        nullable=True,
+    duration: Mapped[int | None] = mapped_column(
+        Integer,
     )
-    release_date: Mapped[date] = mapped_column(
-        Date(),
-        nullable=True,
+    release_date: Mapped[date | None] = mapped_column(
+        Date,
     )
+
+    poster: Mapped[str] = mapped_column(String(120), nullable=True)
 
     def __str__(self):
         return self.title

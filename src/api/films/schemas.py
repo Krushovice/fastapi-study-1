@@ -7,8 +7,9 @@ class FilmBaseSchema(BaseModel):
     title: str
     genre: str
     description: str
-    duration: int
-    release_date: date
+    duration: int | None
+    release_date: date | None
+    poster: str | None
 
 
 class FilmCreateSchema(FilmBaseSchema):
@@ -21,6 +22,7 @@ class FilmUpdateSchema(FilmBaseSchema):
     description: str | None = None
     duration: int | None = None
     release_date: date | None = None
+    poster: str | None
 
 
 class FilmSchema(FilmBaseSchema):

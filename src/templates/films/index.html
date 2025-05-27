@@ -2,23 +2,21 @@
 
 {% block title %}Моя коллекция{% endblock %}
 {% block content %}
+
+
 <div class="album py-5 bg-light">
   <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
       {% for film in films %}
       <div class="col">
         <div class="card shadow-sm">
-          <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-               xmlns="http://www.w3.org/2000/svg" role="img"
-               aria-label="Placeholder: {{ film.title }}"
-               preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>{{ film.title }}</title>
-            <rect width="100%" height="100%" fill="#55595c"></rect>
-            <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{ film.title }}</text>
-          </svg>
+            <img src="{{ film.poster }}"
+                class="card-img-top"
+                alt="Постер: {{ film.title }}"
+                style="height: 55%; object-fit: cover;">
           <div class="card-body">
             <p class="card-text">
-              {{ film.description }}
+              {{ film.description | truncate(250, True, '…')}}
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <div class="btn-group">
