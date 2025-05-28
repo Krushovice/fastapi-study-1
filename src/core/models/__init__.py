@@ -3,9 +3,11 @@ __all__ = (
     "Film",
     "Genre",
     "FilmGenreAssoc",
+    "User",
 )
 
 from .base import Base
 from .film import Film
 from .genre import Genre
 from .film_genre_assoc import FilmGenreAssoc
+from .user import User
