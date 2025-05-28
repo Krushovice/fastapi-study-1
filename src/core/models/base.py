@@ -1,5 +1,5 @@
-from sqlalchemy import MetaData
-from sqlalchemy.orm import DeclarativeBase, declared_attr
+from sqlalchemy import MetaData, Integer
+from sqlalchemy.orm import DeclarativeBase, declared_attr, mapped_column, Mapped
 
 from core.config import settings
 from utils.case_converter import camel_case_to_snake_case

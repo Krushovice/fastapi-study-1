@@ -3,12 +3,11 @@ from sqlalchemy.orm import Mapped, mapped_column
 
 
 from core.models import Base
+from core.models.mixins.id_int_pk import IdIntPkMixin
 
 
-class FilmGenreAssoc(Base):
+class FilmGenreAssoc(Base, IdIntPkMixin):
     __tablename__ = "film_genre_assoc"
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
 
     film_id: Mapped[int] = mapped_column(
         ForeignKey(

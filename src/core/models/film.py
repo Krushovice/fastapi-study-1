@@ -5,17 +5,13 @@ from sqlalchemy import Date, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from core.models import Base
+from core.models.mixins.id_int_pk import IdIntPkMixin
 
 if TYPE_CHECKING:
     from core.models import Genre
 
 
-class Film(Base):
-
-    id: Mapped[int] = mapped_column(
-        Integer,
-        primary_key=True,
-    )
+class Film(Base, IdIntPkMixin):
 
     title: Mapped[str] = mapped_column(
         String(120),
