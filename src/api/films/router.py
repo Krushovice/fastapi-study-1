@@ -15,7 +15,7 @@ from api.films.schemas import (
 )
 from api.films.crud import FilmCRUD
 
-from utils import SessionDepends
+from api.dependencies import SessionDep
 
 templates = Jinja2Templates(directory="templates")
 router = APIRouter(prefix="/films", tags=["Films"])
@@ -28,7 +28,7 @@ router = APIRouter(prefix="/films", tags=["Films"])
 )
 async def films_index(
     request: Request,
-    session: SessionDepends,
+    session: SessionDep,
 ) -> HTMLResponse:
 
     films = await FilmCRUD.read_all(session)
@@ -42,7 +42,7 @@ async def films_index(
 @router.get("/{film_id}", response_model=FilmSchema)
 async def film_detail(
     film_id: int,
-    session: SessionDepends,
+    session: SessionDep,
 ) -> Film | None:
 
     film = await FilmCRUD.read(session=session, pk=film_id)
@@ -55,7 +55,7 @@ async def film_detail(
 @router.post("")
 async def film_create(
     film_in: FilmCreateSchema,
-    session: SessionDepends,
+    session: SessionDep,
 ) -> dict:
     film = await FilmCRUD.create(session=session, schema_in=film_in)
 
@@ -69,7 +69,7 @@ async def film_create(
 async def film_update(
     film_id: int,
     updated_film_in: FilmUpdateSchema,
-    session: SessionDepends,
+    session: SessionDep,
 ) -> dict:
     update_film = await FilmCRUD.update(
         session=session,

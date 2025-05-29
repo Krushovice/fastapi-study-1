@@ -6,4 +6,4 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from core.db_helper import db_helper
 
 
-SessionDepends = Annotated[AsyncSession, Depends(db_helper.session_getter)]
+SessionDep = Annotated[AsyncSession, Depends(db_helper.session_getter)]
