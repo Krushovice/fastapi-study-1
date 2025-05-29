@@ -1,4 +1,5 @@
 from datetime import date
+from typing import Optional
 
 from pydantic import BaseModel, constr
 
@@ -6,11 +7,12 @@ from pydantic import BaseModel, constr
 # Film schemas
 class FilmBaseSchema(BaseModel):
     title: str
-    genre: str
     description: str
     duration: int | None
     release_date: date | None
     poster: str | None
+
+    genres: Optional[list["GenreSchema"]] = None
 
 
 class FilmCreateSchema(FilmBaseSchema):
@@ -19,7 +21,6 @@ class FilmCreateSchema(FilmBaseSchema):
 
 class FilmUpdateSchema(FilmBaseSchema):
     title: str | None = None
-    genre: str | None = None
     description: str | None = None
     duration: int | None = None
     release_date: date | None = None
@@ -38,6 +39,8 @@ class GenreBaseSchema(BaseModel):
         to_lower=True,
     )
     description: str
+
+    films: Optional[list["FilmSchema"]] = None
 
 
 class GenreSchema(GenreBaseSchema):
