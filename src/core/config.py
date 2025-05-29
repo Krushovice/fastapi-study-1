@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel, PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -26,6 +25,10 @@ class DBConfig(BaseModel):
     }
 
 
+class AccessToken(BaseModel):
+    lt_seconds: int = 3600
+
+
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=".env",
@@ -36,6 +39,7 @@ class Settings(BaseSettings):
 
     app: AppConfig = AppConfig()
     db: DBConfig
+    access_token: AccessToken = AccessToken()
 
 
 settings = Settings()
