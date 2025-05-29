@@ -10,7 +10,7 @@ class ModelDepGeneric[TModel]:
     model: TModel
 
     @classmethod
-    async def get_access_token_db(
+    async def get_db(
         cls,
         session: Annotated[
             "AsyncSession",
