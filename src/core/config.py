@@ -27,6 +27,8 @@ class DBConfig(BaseModel):
 
 class AccessToken(BaseModel):
     lt_seconds: int = 3600
+    reset_password_token_secret: str
+    verification_token_secret: str
 
 
 class Settings(BaseSettings):
@@ -39,7 +41,7 @@ class Settings(BaseSettings):
 
     app: AppConfig = AppConfig()
     db: DBConfig
-    access_token: AccessToken = AccessToken()
+    access_token: AccessToken
 
 
 settings = Settings()
