@@ -1,11 +1,12 @@
 from fastapi import APIRouter
 
+from core import settings
 from .dependencies.authentification.backend import authentication_backend
 from .fastapi_users_routers_helper import fastapi_users
 from .users.schemas import UserRead, UserCreate
 
 router = APIRouter(
-    prefix="/auth",
+    prefix=settings.api.auth,
     tags=["Auth"],
 )
 
