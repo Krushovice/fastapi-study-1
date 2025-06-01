@@ -25,6 +25,17 @@ class DBConfig(BaseModel):
     }
 
 
+class ApiPrefix(BaseModel):
+    prefix: str = "/api"
+    auth: str = "/auth"
+
+    @property
+    def bearer_token_url(self) -> str:
+        parts = (self.prefix, self.auth, "/login")
+        path = "".join(parts)
+        return path.removeprefix("/")
+
+
 class AccessToken(BaseModel):
     lt_seconds: int = 3600
     reset_password_token_secret: str
@@ -42,6 +53,7 @@ class Settings(BaseSettings):
     app: AppConfig = AppConfig()
     db: DBConfig
     access_token: AccessToken
+    api: ApiPrefix = ApiPrefix()
 
 
 settings = Settings()
